@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Trash2, Edit, Star, Clock, Calendar } from 'lucide-react';
 
 const GameCard = ({ game, onEdit, onDelete }) => {
+  console.log('Rendering GameCard for:', game);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleDelete = () => {
@@ -25,13 +26,13 @@ const GameCard = ({ game, onEdit, onDelete }) => {
       <div className="relative h-48 bg-gradient-to-br from-purple-500 to-blue-500 overflow-hidden">
         {game.cover ? (
           <img
-            src={game.cover}
-            alt={game.title}
+            src={game.url}
+            alt={game.title_name}
             className="w-full h-full object-cover"
           />
         ) : (
           <div className="flex items-center justify-center h-full text-white text-6xl font-bold">
-            {game.title.charAt(0)}
+            {game.title_name.charAt(0).toUpperCase()}
           </div>
         )}
       </div>
@@ -39,11 +40,11 @@ const GameCard = ({ game, onEdit, onDelete }) => {
       {/* Contenido */}
       <div className="p-4">
         <h3 className="text-xl font-bold text-gray-800 mb-2 truncate">
-          {game.title}
+          {game.title_name}
         </h3>
 
         <div className="flex items-center gap-1 mb-3">
-          {renderStars(game.rating)}
+          {renderStars(game.stars)}
         </div>
 
         <div className="space-y-2 mb-4">
@@ -61,17 +62,17 @@ const GameCard = ({ game, onEdit, onDelete }) => {
             </div>
           )}
 
-          {game.hoursPlayed && (
+          {game.played_hours && (
             <div className="flex items-center text-sm text-gray-600">
               <Clock size={14} className="mr-2" />
-              <span>{game.hoursPlayed} horas</span>
+              <span>{game.played_hours} horas</span>
             </div>
           )}
 
-          {game.completedDate && (
+          {game.finished_date && (
             <div className="flex items-center text-sm text-gray-600">
               <Calendar size={14} className="mr-2" />
-              <span>Completado: {new Date(game.completedDate).toLocaleDateString('es-ES')}</span>
+              <span>Completado: {new Date(game.finished_date).toLocaleDateString('es-ES')}</span>
             </div>
           )}
         </div>

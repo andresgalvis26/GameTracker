@@ -30,44 +30,64 @@ const Home = () => {
   // Simulación de datos - Reemplazar con llamadas a tu API
   useEffect(() => {
     // Aquí llamarías a tu API: gameService.getAllGames()
-    const mockGames = [
-      {
-        id: 1,
-        title: "The Legend of Zelda: Breath of the Wild",
-        platform: "Nintendo Switch",
-        genre: "Aventura",
-        completedDate: "2024-09-15",
-        rating: 5,
-        hoursPlayed: 120,
-        cover: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400",
-        notes: "Obra maestra absoluta"
-      },
-      {
-        id: 2,
-        title: "God of War Ragnarök",
-        platform: "PlayStation 5",
-        genre: "Acción",
-        completedDate: "2024-10-01",
-        rating: 5,
-        hoursPlayed: 45,
-        cover: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400",
-        notes: "Increíble historia y combate"
-      },
-      {
-        id: 3,
-        title: "Elden Ring",
-        platform: "PC",
-        genre: "RPG",
-        completedDate: "2024-08-20",
-        rating: 4,
-        hoursPlayed: 95,
-        cover: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
-        notes: "Desafiante pero gratificante"
-      }
-    ];
+    const fetchGames = async () => {
+      try {
+        const response = await fetch('/api/games');
 
-    setGames(mockGames);
-    calculateStats(mockGames);
+        // console.log('Response status:', response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // console.log(data)
+        setGames(data);
+        calculateStats(data);
+      } catch (error) {
+        console.error('Error fetching games:', error);
+      }
+    }
+
+    fetchGames();
+
+    // const mockGames = [
+    //   {
+    //     id: 1,
+    //     title: "The Legend of Zelda: Breath of the Wild",
+    //     platform: "Nintendo Switch",
+    //     genre: "Aventura",
+    //     completedDate: "2024-09-15",
+    //     rating: 5,
+    //     hoursPlayed: 120,
+    //     cover: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400",
+    //     notes: "Obra maestra absoluta"
+    //   },
+    //   {
+    //     id: 2,
+    //     title: "God of War Ragnarök",
+    //     platform: "PlayStation 5",
+    //     genre: "Acción",
+    //     completedDate: "2024-10-01",
+    //     rating: 5,
+    //     hoursPlayed: 45,
+    //     cover: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400",
+    //     notes: "Increíble historia y combate"
+    //   },
+    //   {
+    //     id: 3,
+    //     title: "Elden Ring",
+    //     platform: "PC",
+    //     genre: "RPG",
+    //     completedDate: "2024-08-20",
+    //     rating: 4,
+    //     hoursPlayed: 95,
+    //     cover: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
+    //     notes: "Desafiante pero gratificante"
+    //   }
+    // ];
+
+    // setGames(mockGames);
+    // calculateStats(mockGames);
     setLoading(false);
   }, []);
 

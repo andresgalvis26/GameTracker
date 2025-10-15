@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const api = axios.create({
     baseURL: API_URL,
@@ -11,10 +11,10 @@ const api = axios.create({
 
 export const gameService = {
     // Obtener todos los juegos
-    getAllGames: () => api.get('/games'),
+    getAllGames: () => api.get('/api/games'),
 
     // Obtener un juego por ID
-    getGameById: (id) => api.get(`/games/${id}`),
+    getGameById: (id) => api.get(`/api/games/${id}`),
 
     // Crear un nuevo juego
     createGame: (gameData) => api.post('/games', gameData),
