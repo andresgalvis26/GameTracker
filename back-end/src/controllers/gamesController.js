@@ -54,11 +54,32 @@ class GamesController {
         res.json({ message: 'Prueba de tablas completada. Revisa los logs del servidor.' });
     }
 
-    addGame(req, res) {
-        const { title, genre, completed } = req.body;
-        const newGame = { title, genre, completed };
-        this.games.push(newGame);
-        res.status(201).json(newGame);
+    // addGame(req, res) {
+    //     const { title, genre, completed } = req.body;
+    //     const newGame = { title, genre, completed };
+    //     this.games.push(newGame);
+    //     res.status(201).json(newGame);
+    // }
+
+    async addGame(req, res) {
+        const { title_name, platform, finished_date, played_hours, stars, url, notes, genre } = req.body;
+        try {
+            const { data, error } = await supabase
+                .from('finished_videogames')
+                .insert([{ title_name, platform, finished_date, played_hours, stars, url, notes, genre }])
+                .select();
+            
+            if (error) {
+                console.error('❌ Error al agregar el juego:', error.message);
+                return res.status(500).json({ error: error.message });
+            }
+            
+            console.log('✅ Juego agregado:', data);
+            res.status(201).json(data);
+        } catch (error) {
+            console.error('❌ Error inesperado al agregar el juego:', error.message);
+            res.status(500).json({ error: error.message });
+        }
     }
 }
 
